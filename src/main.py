@@ -1,13 +1,12 @@
 import logging
-
 import aioredis
 import uvicorn as uvicorn
 from elasticsearch import AsyncElasticsearch
 from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
-
 from api.v1 import film
 from core import config
+from schema import movies
 from core.logger import LOGGING
 from db import elastic
 from db import redis
@@ -30,7 +29,6 @@ async def startup():
         hosts=[f'{config.ELASTIC_HOST}:{config.ELASTIC_PORT}'],
         http_auth=(config.ELASTIC_USER, config.ELASTIC_PASSWORD)
     )
-
 
 @app.on_event('shutdown')
 async def shutdown():
